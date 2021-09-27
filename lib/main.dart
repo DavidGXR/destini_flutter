@@ -1,3 +1,5 @@
+import 'package:destini_flutter/story.dart';
+import 'package:destini_flutter/storybrain.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,6 +23,9 @@ class DestiniAppHomePage extends StatefulWidget {
 }
 
 class _DestiniAppHomePageState extends State<DestiniAppHomePage> {
+
+  StoryBrain storyBrain = new StoryBrain();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,7 +45,7 @@ class _DestiniAppHomePageState extends State<DestiniAppHomePage> {
               flex: 5,
               child: Center(
                 child: Text(
-                  'In this challenge, you will be building a choose your own adventure game like Bandersnatch. In the process, you should apply your knowledge from the last module (Quizzler) to use Dart OOP principles to build a well organised project.',
+                  storyBrain.getStory(),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 25,
@@ -57,12 +62,18 @@ class _DestiniAppHomePageState extends State<DestiniAppHomePage> {
                     backgroundColor: Colors.red
                   ),
                   child: Text(
-                    "Ok, I got it!",
+                    storyBrain.getChoice1(),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 17
                     ),
                   ),
+                  onPressed: () {
+                    storyBrain.nextStory(1);
+                    setState(() {
+
+                    });
+                  },
                 ),
               ),
             ),
@@ -70,16 +81,25 @@ class _DestiniAppHomePageState extends State<DestiniAppHomePage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                      backgroundColor: Colors.lightBlue
-                  ),
-                  child: Text(
-                    "No, I don't want to do this challenge!",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17
+                child: Visibility(
+                  visible: storyBrain.didRestart(),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: Colors.lightBlue
                     ),
+                    child: Text(
+                      storyBrain.getChoice2(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17
+                      ),
+                    ),
+                    onPressed: () {
+                      storyBrain.nextStory(2);
+                      setState(() {
+
+                      });
+                    },
                   ),
                 ),
               ),
